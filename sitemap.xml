@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/links/</loc>
+    <lastmod>2018-01-25T23:09:26-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/</loc>
     <lastmod>2018-01-25T23:02:47-05:00</lastmod>
   </url>
