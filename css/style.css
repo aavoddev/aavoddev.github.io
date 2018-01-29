@@ -97,12 +97,8 @@ header a {
 }
 
 header .menuControl {
-  padding: .61em .5em;
-  display: flex;
-  float: left;
-  align-items: center;
-  height: 0.6em;
-  width: .6em;
+  height: .8em;
+  display: inline;
   transform: rotate(180deg);
   transition: .25s ease-in-out;
 }
