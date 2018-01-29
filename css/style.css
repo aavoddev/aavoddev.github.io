@@ -64,10 +64,51 @@
 }
 
 body {
-  color: black;
-  background-color: white;
+  background-color: #fdf6e3;
+  color: #839496;
   font-family: Helvetica, Verdana, Arial, 'Liberation Sans', FreeSans, sans-serif;
-  font-size: 84%;  /* Enables font size scaling in MSIE */
+  font-size: 10pt;
   margin: 0;
   padding: 0;
+}
+
+main {
+  display: inline-block;
+}
+
+a {
+  text-decoration: none;
+  color: #b58900;
+}
+a:hover { text-decoration: underline; }
+
+h1 {
+  color: #b58900;
+}
+
+header {
+  font-size: 200%;
+  background-color: #eee8d5;
+}
+
+header a {
+  padding: .5em .1em;
+  display: inline-block;
+}
+
+header .menuControl {
+  padding: .61em .5em;
+  display: flex;
+  float: left;
+  align-items: center;
+  height: 0.6em;
+  width: .6em;
+  transform: rotate(180deg);
+  transition: .25s ease-in-out;
+}
+
+@media only screen and (max-width:959px) {
+  #sidebar {
+    display: none
+  }
 }
