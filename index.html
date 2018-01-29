@@ -11,14 +11,29 @@
   title="HELPING">
 </head>
 <body>
+  <input name="drawer" id="drawer" type="checkbox">
   <header>
-    <img class="menuControl" src="/img/arrow.png"> <a href=
-    "/">HELPING</a>
+    <label for="drawer"><img class="menuControl" src=
+    "/img/arrow.png"></label><a href="/">HELPING</a>
   </header>
   <nav id="sidebar">
     <ul class="topics">
       <li data-nav-id="/links/" class="dd-item">
         <a href="/links/">› Links/</a>
+        <ul>
+          <li data-nav-id="/links/atest/" class="dd-item">
+            <a href="/links/atest/">› Atest/</a>
+            <ul>
+              <li data-nav-id="/links/atest/moretests/" class=
+              "dd-item">
+                <a href="/links/atest/moretests/">› Moretests</a>
+              </li>
+            </ul>
+          </li>
+          <li data-nav-id="/links/testing/" class="dd-item">
+            <a href="/links/testing/">› Testing</a>
+          </li>
+        </ul>
       </li>
     </ul>
   </nav>
@@ -30,8 +45,5 @@
       </div>
     </article>
   </main>
-  <footer>
-    <p>© 2018 <a href="/">HELPING</a></p>
-  </footer>
 </body>
 </html>
