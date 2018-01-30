@@ -1,5 +1,4 @@
 #sidebar ul.topics ul {
-  display: none;
   margin-bottom: .5em;
 }
 
@@ -67,23 +66,11 @@
   text-decoration: none;
 }
 
-#drawer:checked ~ header .menuControl {
-  transform: rotate(180deg);
-}
-
-#drawer:checked ~ #sidebar {
-  margin-left: 0em !important;
-}
-
-#drawer{
-  display: none;
-}
-
 body {
   background-color: #fdf6e3;
   color: #839496;
   font-family: Helvetica, Verdana, Arial, 'Liberation Sans', FreeSans, sans-serif;
-  font-size: 10pt;
+  font-size: 84%;
   margin: 0;
   padding: 0;
 }
@@ -118,27 +105,13 @@ h1 {
 header {
   font-size: 200%;
   background-color: #eee8d5;
+  display: flex;
 }
 
 header a {
-  padding: .5em .1em .3em;
-  display: inline-block;
+  display: contents;
 }
 
-header .menuControl {
-  height: .8em;
-  display: none;
-  transition: .25s ease-in-out;
-  padding: 0 .5em;
-}
-
-@media only screen and (max-width:959px) {
-  #sidebar {
-    margin-left: -16em;
-    position: absolute;
-    background-color: rgba(238, 232, 213, .87);
-  }
-  .menuControl {
-    display: inline !important;
-  }
+header a pre {
+  margin: .5em;
 }
