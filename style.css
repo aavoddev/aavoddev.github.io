@@ -1,0 +1,97 @@
+body {
+	color: #657b83;
+	margin: 0;
+}
+
+#menuctl {
+	display: none;
+}
+
+.header {
+	background-color: #eee8d5;
+}
+
+.ccontainer {
+	background-color: #fdf6e3;
+	left: 0;
+	top: 0;
+}
+
+.menubutton {
+	display: none;
+}
+
+.menu {
+	float: left;
+}
+
+/*** DESKTOP ***/
+
+.container {
+	float: right;
+	margin-left: -12em;
+	width: 100%;
+}
+
+.ccontainer {
+	margin-left: 12em;
+}
+
+/*** MOBILE ***/
+
+@media (max-width: 35em) {
+
+#menuctl:checked ~ .container .ccontainer {
+	left: 70%;
+}
+
+.ccontainer {
+	height: 100%;
+	width: 100%;
+	min-height: 100%;
+	position: absolute;
+}
+
+.menubutton {
+	display: block;
+}
+
+.menu {
+	min-height: 100%;
+	width: 100%;
+	position: static;
+	box-sizing: border-box;
+	z-index: 0;
+	background-color: #eee8d5;
+	left: 0;
+	top: 0;
+}
+
+#menuctl:checked ~ .container .shade {
+	display: block;
+}
+
+.shade {
+	background-color: black;
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: none;
+}
+
+/* Null out desktop properties */
+
+.container {
+	float: initial;
+	margin-left: initial;
+	width: initial;
+}
+
+.ccontainer {
+	margin-left: initial;
+}
+
+}
