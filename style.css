@@ -1,5 +1,6 @@
 body {
 	color: #657b83;
+	background-color: #fdf6e3;
 	margin: 0;
 }
 
@@ -12,7 +13,6 @@ body {
 }
 
 .ccontainer {
-	background-color: #fdf6e3;
 	left: 0;
 	top: 0;
 }
@@ -41,11 +41,12 @@ body {
 
 @media (max-width: 35em) {
 
-#menuctl:checked ~ .container .ccontainer {
-	left: 70%;
+#menuctl:checked ~ .container {
+	left: 12em;
 }
 
-.ccontainer {
+.container {
+	background-color: #fdf6e3;
 	height: 100%;
 	width: 100%;
 	min-height: 100%;
