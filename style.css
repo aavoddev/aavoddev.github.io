@@ -41,17 +41,26 @@ body {
 
 @media (max-width: 35em) {
 
-body {
+#menuctl:checked ~ .whole {
+	position: relative;
 	overflow: hidden;
+	min-height: 100%;
+	height: auto;
 }
 
-#menuctl:checked ~ .container {
-	left: 12em;
-}
-
-.container {
-	background-color: #fdf6e3;
+#menuctl:checked ~ .whole .center {
+	left: 0;
+	transform: translate(12em,0);
+	overflow: hidden;
 	height: 100%;
+}
+
+.header {
+	overflow: auto;
+}
+
+.center {
+	background-color: #fdf6e3;
 	width: 100%;
 	min-height: 100%;
 	position: absolute;
@@ -62,19 +71,18 @@ body {
 }
 
 .menu {
-	height: 100%;
+	min-height: 100%;
 	width: 100%;
 	position: static;
 	box-sizing: border-box;
-	overflow-y: scroll;
-	z-index: 0;
 	background-color: #eee8d5;
+	z-index: 0;
 	left: 0;
 	top: 0;
 }
 
-#menuctl:checked ~ .container .shade {
-	display: block;
+#menuctl:checked ~ .whole .shade {
+	display: initial;
 }
 
 .shade {
