@@ -1,0 +1,125 @@
+<html>
+	<head>
+		
+		<title>Welcome</title>
+		<link rel="stylesheet" href="/static/style.css" type="text/css" media="screen, handheld">
+		<script>
+			function sidebarEv(e) {
+				if (e.checked) {
+					window.name = "sidebar"
+				} else {
+					window.name = ""
+				}
+			}
+		</script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<input type="checkbox" name="menucontrol" id="menuctl" value="menuctl" onchange="sidebarEv(this)">
+		<script>if (window.name == "sidebar") { document.getElementById('menuctl').checked = true }</script>
+		<div class="whole">
+			<div class="center">
+				<div class="header">
+					<div class="htable">
+						<label for="menuctl" class="menubutton"><img src="/static/img/menu.svg" alt="Menu"></label>
+						<h1 class="title"><a href="/">WIP</a></h1>
+					</div>
+				</div>
+				<div class="ccontainer">
+					<div class="content">
+						<h1>Welcome</h1>
+
+<p>Sit down, have some tea, make yourself at home.</p>
+
+<pre><code>&lt;html&gt;
+	&lt;head&gt;
+		&lt;!-- Takes influence from Wikipedia mobile, BCHS (checkbox css magic), cat-v.org, alistapart negative margins --&gt;
+		&lt;title&gt;{{.Title}}&lt;/title&gt;
+		&lt;link rel=&quot;stylesheet&quot; href=&quot;/static/style.css&quot; type=&quot;text/css&quot; media=&quot;screen, handheld&quot;&gt;
+		&lt;script&gt;
+			function sidebarEv(e) {
+				if (e.checked) {
+					window.name = &quot;sidebar&quot;
+				} else {
+					window.name = &quot;&quot;
+				}
+			}
+		&lt;/script&gt;
+		&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+		&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;input type=&quot;checkbox&quot; name=&quot;menucontrol&quot; id=&quot;menuctl&quot; value=&quot;menuctl&quot; onchange=&quot;sidebarEv(this)&quot;&gt;
+		&lt;script&gt;if (window.name == &quot;sidebar&quot;) { document.getElementById('menuctl').checked = true }&lt;/script&gt;
+		&lt;div class=&quot;whole&quot;&gt;
+			&lt;div class=&quot;center&quot;&gt;
+				&lt;div class=&quot;header&quot;&gt;
+					&lt;div class=&quot;htable&quot;&gt;
+						&lt;label for=&quot;menuctl&quot; class=&quot;menubutton&quot;&gt;&lt;img src=&quot;/static/img/menu.svg&quot; alt=&quot;Menu&quot;&gt;&lt;/label&gt;
+						&lt;h1 class=&quot;title&quot;&gt;&lt;a href=&quot;/&quot;&gt;Maximum Viable&lt;/a&gt;&lt;/h1&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class=&quot;ccontainer&quot;&gt;
+					&lt;div class=&quot;content&quot;&gt;
+						{{.Content}}
+					&lt;/div&gt;
+					&lt;label for=&quot;menuctl&quot; class=&quot;shade&quot;&gt;&lt;/label&gt;
+					&lt;div class=&quot;clickhole&quot;&gt;&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div class=&quot;nocss&quot;&gt;
+				&lt;p&gt;&lt;/p&gt;
+				&lt;h1&gt;Nav:&lt;/h1&gt;
+			&lt;/div&gt;
+			&lt;div class=&quot;menu&quot;&gt;
+				&lt;a href=&quot;/&quot; id=&quot;home&quot;&gt;Home&lt;/a&gt;
+				&lt;ul&gt;
+					{{- block &quot;sdbranch&quot; .Sidebar -}}
+						{{- $c := Entries .Base $.Cur -}}
+						{{- range $c -}}
+							{{- if .Dir -}}
+								&lt;li&gt;&lt;a href=&quot;{{.Lin}}&quot; {{.Attrs}}&gt;
+									{{- if .Nod.Antec $.Cur -}}
+										» {{else -}}
+										› {{end}}{{.Nam}}/&lt;/a&gt;
+								{{- if .Nod.Antec $.Cur -}}
+									&lt;ul&gt;
+										{{- $new := sbNewDot .Nod $.Cur -}}
+										{{- template &quot;sdbranch&quot; $new -}}
+									&lt;/ul&gt;
+								{{- end -}}
+								&lt;/li&gt;
+							{{- else -}}
+								&lt;li&gt;&lt;a href=&quot;{{.Lin}}&quot; {{.Attrs}}&gt;{{- if nodeequal .Nod $.Cur -}}
+									» {{else -}}
+									› {{end}}{{.Nam}}&lt;/a&gt;&lt;/li&gt;
+							{{- end -}}
+						{{- end -}}
+					{{- end -}}
+				&lt;/ul&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+
+<p>♥ ♩♪♪</p>
+
+					</div>
+					<label for="menuctl" class="shade"></label>
+					<div class="clickhole"></div>
+				</div>
+			</div>
+			<div class="nocss">
+				<p></p>
+				<h1>Nav:</h1>
+			</div>
+			<div class="menu">
+				<a href="/" id="home">Home</a>
+				<ul><li><a href="/About/" >› About/</a></li><li><a href="/Plan_9/" >› Plan 9/</a></li></ul>
+			</div>
+		</div>
+	</body>
+</html>
