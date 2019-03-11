@@ -1,8 +1,272 @@
 <html>
 	<head>
 		
-		<title>Welcome</title>
-		<link rel="stylesheet" href="/static/style.css" type="text/css" media="screen, handheld">
+		<title>garbageware</title>
+		<style type="text/css" media="screen, handheld">body {
+	-webkit-text-size-adjust: 100%;
+	color: #657b83;
+	background-color: #fdf6e3;
+	margin: 0;
+	font-family: Helvetica, Verdana, Arial, 'Liberation Sans', FreeSans, sans-serif;
+}
+
+code {
+	padding: .08em .2em;
+	background-color: #eee8d5;
+}
+
+pre {
+	background-color: #eee8d5;
+	padding: .6em;
+	overflow: auto;
+}
+
+pre code {
+	padding: 0;
+}
+
+a, a:visited {
+	color: #859900;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+p {
+	max-width: 50em;
+}
+
+.nocss {
+	display: none;
+}
+
+#menuctl {
+	display: none;
+}
+
+.header {
+	background-color: #eee8d5;
+	width: 100%;
+}
+
+#htable {
+	display: table;
+	height: 3em;
+}
+
+#htable .title {
+	display: table-cell;
+	vertical-align: middle;
+	padding-left: .6em;
+}
+
+#htable .title a {
+	color: inherit;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+#menubutton {
+	display: none;
+}
+
+.ccontainer {
+	left: 0;
+	top: 0;
+	max-width: 100%;
+	overflow-x: hidden;
+	position: static;
+}
+
+.content {
+	margin: 1.5em; /* cmargin */
+	max-width: 54em;
+}
+
+li ul {
+	padding-left: 0.6em !important;
+}
+
+.menu {
+	padding-top: .2em;
+	float: left;
+	bottom: 0;
+}
+
+.menu #home {
+	font-size: 110%;
+	font-weight: bold;
+	padding: .4em .5em;
+	margin-bottom: .2em;
+}
+
+.menu ul {
+	list-style-type: none;
+	list-style-position: outside;
+	margin: 0;
+	padding: 0 0 0.3em 0;
+}
+
+.menu li {
+	margin: 0;
+	padding: 0.1ex 0;
+}
+
+.menu a {
+	display: block;
+	padding: .25em .5em .25em .5em;
+	border-left: transparent solid .2em;
+}
+
+.menu a:hover {
+	border-left: #586e75 solid .2em;
+}
+
+/*** DESKTOP ***/
+
+.ccontainer {
+	float: left;
+	width: 100%;
+}
+
+.content {
+	margin-left: 13em; /* menusize */
+}
+
+.menu {
+	width: 12em; /* menusize */
+	margin-left: -100%;
+	position: relative;
+}
+
+.menu #home {
+	display: none;
+}
+
+/*** MOBILE ***/
+
+@media (max-width: 60em) {
+
+#menuctl:checked ~ .whole {
+	position: relative;
+	overflow: hidden;
+	min-height: 100%;
+	height: auto;
+}
+
+#menuctl:checked ~ .whole .center {
+	left: 0;
+	transform: translate(12em,0); /* menusize */
+	overflow: hidden;
+	height: 100%;
+}
+
+.header {
+	overflow: auto;
+}
+
+.center {
+	background-color: #fdf6e3;
+	width: 100%;
+	min-height: 100%;
+	position: absolute;
+	transition: transform 0.25s;
+}
+
+#menuimg {
+	display: block;
+	box-sizing: border-box;
+	width: 1.3em;	/* This is just eyeballed. */
+	height: 1em;
+	background: url(/static/img/menu.svg) no-repeat;
+	background-size: contain;
+	background-position: center;
+}
+
+#menubutton {
+	display: table-cell;
+	vertical-align: middle;
+	padding-left: .8em;
+	padding-right: .8em;
+}
+
+#htable .title {
+	padding-left: .1em;
+}
+
+.menu {
+	min-height: 100%;
+	position: static;
+	box-sizing: border-box;
+	background-color: #eee8d5;
+	z-index: 0;
+	left: 0;
+	top: 0;
+}
+
+.menu #home {
+	display: block;
+}
+
+#menuctl:checked ~ .whole .shade {
+	opacity: 0.5;
+	height: 100%;
+	transition: height 0s 0s, opacity 0.25s 0s;
+}
+
+.shade {
+	opacity: 0;
+	height: 0;
+	transition: height 0s 0.25s, opacity 0.25s 0s;
+	z-index: 1;
+	background-color: black;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+#menuctl:checked ~ .whole .clickhole {
+	z-index: 2;
+	height: 0;
+	transition: z-index 0s 0s, height 0s 0.25s;
+}
+
+.clickhole {
+	opacity: 0;
+	z-index: -1;
+	height: 100%;
+	transition: z-index 0s 0.25s, height 0s 0s;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+/* Null out desktop properties */
+
+.ccontainer {
+	float: initial;
+	width: initial;
+}
+
+.content {
+	margin: 1.1em; /* cmargin */
+}
+
+.menu {
+	margin-left: initial;
+}
+
+}
+</style>
 		<script>
 			function sidebarEv(e) {
 				if (e.checked) {
@@ -21,91 +285,16 @@
 		<div class="whole">
 			<div class="center">
 				<div class="header">
-					<div class="htable">
-						<label for="menuctl" class="menubutton"><img src="/static/img/menu.svg" alt="Menu"></label>
-						<h1 class="title"><a href="/">WIP</a></h1>
+					<div id="htable">
+						<label for="menuctl" id="menubutton"><div id="menuimg"></div></label>
+						<h1 class="title"><a href="/">garbageware</a></h1>
 					</div>
 				</div>
 				<div class="ccontainer">
 					<div class="content">
-						<h1>Welcome</h1>
+						<h1>garbageware</h1>
 
-<p>Sit down, have some tea, make yourself at home.</p>
-
-<pre><code>&lt;html&gt;
-	&lt;head&gt;
-		&lt;!-- Takes influence from Wikipedia mobile, BCHS (checkbox css magic), cat-v.org, alistapart negative margins --&gt;
-		&lt;title&gt;{{.Title}}&lt;/title&gt;
-		&lt;link rel=&quot;stylesheet&quot; href=&quot;/static/style.css&quot; type=&quot;text/css&quot; media=&quot;screen, handheld&quot;&gt;
-		&lt;script&gt;
-			function sidebarEv(e) {
-				if (e.checked) {
-					window.name = &quot;sidebar&quot;
-				} else {
-					window.name = &quot;&quot;
-				}
-			}
-		&lt;/script&gt;
-		&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-		&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
-	&lt;/head&gt;
-	&lt;body&gt;
-		&lt;input type=&quot;checkbox&quot; name=&quot;menucontrol&quot; id=&quot;menuctl&quot; value=&quot;menuctl&quot; onchange=&quot;sidebarEv(this)&quot;&gt;
-		&lt;script&gt;if (window.name == &quot;sidebar&quot;) { document.getElementById('menuctl').checked = true }&lt;/script&gt;
-		&lt;div class=&quot;whole&quot;&gt;
-			&lt;div class=&quot;center&quot;&gt;
-				&lt;div class=&quot;header&quot;&gt;
-					&lt;div class=&quot;htable&quot;&gt;
-						&lt;label for=&quot;menuctl&quot; class=&quot;menubutton&quot;&gt;&lt;img src=&quot;/static/img/menu.svg&quot; alt=&quot;Menu&quot;&gt;&lt;/label&gt;
-						&lt;h1 class=&quot;title&quot;&gt;&lt;a href=&quot;/&quot;&gt;Maximum Viable&lt;/a&gt;&lt;/h1&gt;
-					&lt;/div&gt;
-				&lt;/div&gt;
-				&lt;div class=&quot;ccontainer&quot;&gt;
-					&lt;div class=&quot;content&quot;&gt;
-						{{.Content}}
-					&lt;/div&gt;
-					&lt;label for=&quot;menuctl&quot; class=&quot;shade&quot;&gt;&lt;/label&gt;
-					&lt;div class=&quot;clickhole&quot;&gt;&lt;/div&gt;
-				&lt;/div&gt;
-			&lt;/div&gt;
-			&lt;div class=&quot;nocss&quot;&gt;
-				&lt;p&gt;&lt;/p&gt;
-				&lt;h1&gt;Nav:&lt;/h1&gt;
-			&lt;/div&gt;
-			&lt;div class=&quot;menu&quot;&gt;
-				&lt;a href=&quot;/&quot; id=&quot;home&quot;&gt;Home&lt;/a&gt;
-				&lt;ul&gt;
-					{{- block &quot;sdbranch&quot; .Sidebar -}}
-						{{- $c := Entries .Base $.Cur -}}
-						{{- range $c -}}
-							{{- if .Dir -}}
-								&lt;li&gt;&lt;a href=&quot;{{.Lin}}&quot; {{.Attrs}}&gt;
-									{{- if .Nod.Antec $.Cur -}}
-										» {{else -}}
-										› {{end}}{{.Nam}}/&lt;/a&gt;
-								{{- if .Nod.Antec $.Cur -}}
-									&lt;ul&gt;
-										{{- $new := sbNewDot .Nod $.Cur -}}
-										{{- template &quot;sdbranch&quot; $new -}}
-									&lt;/ul&gt;
-								{{- end -}}
-								&lt;/li&gt;
-							{{- else -}}
-								&lt;li&gt;&lt;a href=&quot;{{.Lin}}&quot; {{.Attrs}}&gt;{{- if nodeequal .Nod $.Cur -}}
-									» {{else -}}
-									› {{end}}{{.Nam}}&lt;/a&gt;&lt;/li&gt;
-							{{- end -}}
-						{{- end -}}
-					{{- end -}}
-				&lt;/ul&gt;
-			&lt;/div&gt;
-		&lt;/div&gt;
-	&lt;/body&gt;
-&lt;/html&gt;
-
-</code></pre>
-
-<p>♥ ♩♪♪</p>
+<p>Home to the worst software.</p>
 
 					</div>
 					<label for="menuctl" class="shade"></label>
