@@ -1,7 +1,7 @@
 <html>
 	<head>
 		
-		<title>garbageware</title>
+		<title>p1pe.net</title>
 		<style type="text/css" media="screen, handheld">body {
 	-webkit-text-size-adjust: 100%;
 	color: #657b83;
@@ -92,17 +92,21 @@ li ul {
 	padding-left: 0.6em !important;
 }
 
-.menu {
+.menu.sidebar {
 	padding-top: .2em;
 	float: left;
 	bottom: 0;
 }
 
-.menu #home {
+.menu.sidebar #home {
 	font-size: 110%;
 	font-weight: bold;
 	padding: .4em .5em;
 	margin-bottom: .2em;
+}
+
+.menu.sidebar #sitemap {
+	margin-top: 1.3em;
 }
 
 .menu ul {
@@ -138,13 +142,13 @@ li ul {
 	margin-left: 13em; /* menusize */
 }
 
-.menu {
+.menu.sidebar {
 	width: 12em; /* menusize */
 	margin-left: -100%;
 	position: relative;
 }
 
-.menu #home {
+.menu.sidebar #home {
 	display: none;
 }
 
@@ -199,7 +203,8 @@ li ul {
 	padding-left: .1em;
 }
 
-.menu {
+.menu.sidebar {
+	padding-bottom: .5em;
 	min-height: 100%;
 	position: static;
 	box-sizing: border-box;
@@ -209,7 +214,7 @@ li ul {
 	top: 0;
 }
 
-.menu #home {
+.menu.sidebar #home {
 	display: block;
 }
 
@@ -261,7 +266,7 @@ li ul {
 	margin: 1.1em; /* cmargin */
 }
 
-.menu {
+.menu.sidebar {
 	margin-left: initial;
 }
 
@@ -287,14 +292,12 @@ li ul {
 				<div class="header">
 					<div id="htable">
 						<label for="menuctl" id="menubutton"><div id="menuimg"></div></label>
-						<h1 class="title"><a href="/">garbageware</a></h1>
+						<h1 class="title"><a href="/">p1pe.net</a></h1>
 					</div>
 				</div>
 				<div class="ccontainer">
 					<div class="content">
-						<h1>garbageware</h1>
-
-<p>Home to the worst software.</p>
+						<p>Home to only the worst software.</p>
 
 					</div>
 					<label for="menuctl" class="shade"></label>
@@ -305,9 +308,10 @@ li ul {
 				<p></p>
 				<h1>Nav:</h1>
 			</div>
-			<div class="menu">
+			<div class="menu sidebar">
 				<a href="/" id="home">Home</a>
 				<ul><li><a href="/About/" >› About/</a></li><li><a href="/Plan_9/" >› Plan 9/</a></li></ul>
+				<a href="/sitemap" id="sitemap">› Site Map</a>
 			</div>
 		</div>
 	</body>
