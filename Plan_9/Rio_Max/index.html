@@ -363,7 +363,7 @@ wctlcmd(Window *w, Rectangle r, int cmd, char *err)
 
 <p>My solution is a little clunkier than I&rsquo;d like, but it works and it&rsquo;s clear exactly what it does. First order of business is the new variable, <code>rd</code> of type <code>Rectangle</code>. Despite its type, <code>rd</code> does not represent a rectangle to be drawn, it represents whether the corresponding values of <code>r</code> and <code>w-&gt;screenr</code> differ. A check is performed to make sure the <code>min</code> and <code>max</code> values of the same axis haven&rsquo;t both changed, if they have, it returns an error to the calling function.</p>
 
-<p>Then, it&rsquo;s just a matter of desciding which value to throw away and which to keep, much like in the original code, but this time, it can throw away either the <code>min</code> or <code>max</code>.</p>
+<p>Then, it&rsquo;s just a matter of deciding which value to throw away and which to keep, much like in the original code, but this time, it can throw away either the <code>min</code> or <code>max</code>.</p>
 
 <h2>What this affords us</h2>
 
@@ -375,7 +375,7 @@ wctlcmd(Window *w, Rectangle r, int cmd, char *err)
 
 <p>The script itself is mostly self-explanatory. The section that contains the most magic is the definition of the <code>scr</code> variable, which invokes dd(1). The fields of <code>/dev/draw/new</code> ony my system are shown in Fig 3. The reason we have to use dd(1) to extract the fields is because the draw device get mad at us if we read more than once: <code>unknown id for draw image</code>, hence the <code>-count 1</code> arguments. As such, cat(1), which reads indefinitely, is out of the question for this application.</p>
 
-<p>We set the <code>ifs</code> to a single space to separate out the fields produced by dd(1). The fields we&rsquo;re interested in are the 7th and 8th, which, as descibed in draw(3), are <code>max.x, and max.y of the display image</code>. So we subract our <code>maxx</code> and <code>maxy</code> margins from the values we got from <code>/dev/draw/new</code> to get the maximum limits. We do this by composing commands for bc(1) with echo and piping to <code>bc</code> and assigning the output to the variables <code>maxx</code> and <code>maxy</code> as rc(1) doesn&rsquo;t have builtin math facilities.</p>
+<p>We set the <code>ifs</code> to a single space to separate out the fields produced by dd(1). The fields we&rsquo;re interested in are the 7th and 8th, which, as described in draw(3), are <code>max.x, and max.y of the display image</code>. So we subract our <code>maxx</code> and <code>maxy</code> margins from the values we got from <code>/dev/draw/new</code> to get the maximum limits. We do this by composing commands for bc(1) with echo and piping to <code>bc</code> and assigning the output to the variables <code>maxx</code> and <code>maxy</code> as rc(1) doesn&rsquo;t have builtin math facilities.</p>
 
 <p>Fig 3.</p>
 
