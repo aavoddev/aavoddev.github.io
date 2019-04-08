@@ -282,7 +282,7 @@ html {
 				<div id="content">
 					<h1>Maximize script &amp; Rio patch</h1>
 
-<p>The rio(4) manual is phrased in a way to imply that the <code>wctl</code> <code>move</code> command can take <code>-maxx</code> and <code>-maxy</code> options, but unfortunately the implementation disagrees. If the implementation matched the docs, aligning windows to the right or bottom edge of the screen would be very simple, so let&rsquo;s take a look at what needs to be fixed. References to code won&rsquo;t use line numbers as Plan 9 is a moving target in the case of the 9front fork.</p>
+<p>The rio(4) manual is phrased in a way to imply that the <code>wctl</code> <code>move</code> command can take <code>-maxx</code> and <code>-maxy</code> options, but unfortunately the implementation disagrees. If the implementation matched the docs, aligning windows to the right or bottom edge of the screen would be very simple, so let&rsquo;s take a look at what needs to be fixed. References to code won&rsquo;t use line numbers as Plan 9 is potentially a moving target in the case of the 9front fork.</p>
 
 <p>The area we&rsquo;re interested in is located in <code>wctl.c</code>.</p>
 
@@ -344,7 +344,7 @@ wctlcmd(Window *w, Rectangle r, int cmd, char *err)
 	case Resize:
 </code></pre>
 
-<p>My solution is a little clunkier than I&rsquo;d like, but it works and it&rsquo;s clear exactly what it does. First order of business is the new variable, <code>rd</code> of type <code>Rectangle</code>. Despite its type, <code>rd</code> does not represent a rectangle to be drawn, it represents whether the corresponding values of <code>r</code> and <code>w-&gt;screenr</code> differ. A check is performed to make sure the <code>min</code> and <code>max</code> values of the same axis haven&rsquo;t both changed, if they have, it returns an error to the calling function.</p>
+<p>My solution is a little clunkier than I&rsquo;d like, but it works well enough and it&rsquo;s clear exactly what it does. It will mis-handle a move outside rio&rsquo;s bounds, potentially succeeding incorrectly, or mis-reporting the error <code>max and min are mutually exclusive</code>, but the solution would be more work than it&rsquo;s worth. First order of business is the new variable, <code>rd</code> of type <code>Rectangle</code>. Despite its type, <code>rd</code> does not represent a rectangle to be drawn, it represents whether the corresponding values of <code>r</code> and <code>w-&gt;screenr</code> differ. A check is performed to make sure the <code>min</code> and <code>max</code> values of the same axis haven&rsquo;t both changed, if they have, it returns an error to the calling function.</p>
 
 <p>Then, it&rsquo;s just a matter of deciding which value to throw away and which to keep, much like in the original code, but this time, it can throw away either the <code>min</code> or <code>max</code>.</p>
 
@@ -352,17 +352,21 @@ wctlcmd(Window *w, Rectangle r, int cmd, char *err)
 
 <p>I noticed this bug when I was making a script to maximize windows and it didn&rsquo;t behave correctly, so fixing this allows my script to work.</p>
 
-<p>The script&rsquo;s name is simply <code>max</code> on my system. <code>max</code>, as seen in Fig 5, will maximize and move the window to the limits defined by the variable <code>rmargin</code>, which is expected to be defined in the user&rsquo;s <code>$home/lib/profile</code>. An example definition is as shown in Fig 4. This definition leaves a 161-pixel gap at the left, and a 1-pixel gap at the bottom and right side of the screen. So I have a stats(8), clock date(1), and winwatch(1) windows setup by riostart in the left margin, and that never changes. The 1-pixel margin around the bottom and right of the screen is for right-clicking to access the rio menu, which is sometimes handy.</p>
+<p>The script&rsquo;s name is simply <code>max</code> on my system. <code>max</code>, as seen in Fig 6, will maximize and move the window to the limits defined by the variable <code>rmargin</code>, which is expected to be defined prior to the execution of <code>max</code>. An example definition is as shown in Fig 4. This definition leaves a 161-pixel gap at the left, and a 1-pixel gap at the bottom and right side of the screen. So I have a stats(8), clock date(1), and winwatch(1) windows setup by riostart in the left margin, and that never changes. The 1-pixel margin around the bottom and right of the screen is for right-clicking to access the rio menu, which is sometimes handy.</p>
 
-<p>Running <code>max</code> with no arguments will make the window as large as it can be while maintaining the margins. The flags <code>-l</code>, <code>-r</code>, <code>-u</code>, and <code>-d</code> bump the window up next to the leftmost, rightmost, uppermost, and lowermost limts, respectively. The <code>-v</code> and <code>-h</code> flags maximize the window vertically and horizontally, respectively. Running <code>max</code> with no arguments is the same as running <code>max -vh</code>.</p>
+<p>In addition to <code>rmargin</code>, there&rsquo;s <code>sriomargin</code> which is for use if a sub-rio is spawned. For normal rio, the values should be as depicted in Fig 5.</p>
 
-<p>The script itself is mostly self-explanatory. The section that contains the most magic is the definition of the <code>scr</code> variable, which invokes dd(1). The fields of <code>/dev/draw/new</code> ony my system are shown in Fig 3. The reason we have to use dd(1) to extract the fields is because the draw device get mad at us if we read more than once: <code>unknown id for draw image</code>, hence the <code>-count 1</code> arguments. As such, cat(1), which reads indefinitely, is out of the question for this application.</p>
+<p>Running <code>max</code> with no arguments will make the window as large as it can be while maintaining the margins. The flags <code>-l</code>, <code>-r</code>, <code>-u</code>, and <code>-d</code> bump the window up next to the leftmost, rightmost, uppermost, and lowermost limits, respectively. The <code>-v</code> and <code>-h</code> flags maximize the window vertically and horizontally, respectively. Running <code>max</code> with no arguments is the same as running <code>max -vh</code>.</p>
 
-<p>We set the <code>ifs</code> to a single space to separate out the fields produced by dd(1). The fields we&rsquo;re interested in are the 7th and 8th, which, as described in draw(3), are <code>max.x, and max.y of the display image</code>. So we subract our <code>maxx</code> and <code>maxy</code> margins from the values we got from <code>/dev/draw/new</code> to get the maximum limits. We do this by composing commands for bc(1) with echo and piping to <code>bc</code> and assigning the output to the variables <code>maxx</code> and <code>maxy</code> as rc(1) doesn&rsquo;t have builtin math facilities.</p>
+<p>The script itself is mostly self-explanatory. The section that contains the most magic is the definition of the <code>scr</code> variable, which invokes dd(1) on either <code>/dev/screen</code> if we&rsquo;re not running in a sub-rio, or <code>/mnt/orio/window</code> if we are. The fields of <code>/dev/screen</code> on my system are shown in Fig 3. It is imperative that we read only once and only the first 60 bytes, as we&rsquo;re reading the header of a larger image(6) file. It seems rio will only return the first 60 bytes even if your buffer is larger on the first read, but we only ask for 60 just to be safe. As such, cat(1), which reads indefinitely, is out of the question for this application.</p>
+
+<p>We set the <code>ifs</code> to a single space to separate out the fields produced by dd(1). The fields we&rsquo;re interested in are the 7th and 8th, which, as described in draw(3), are <code>max.x, and max.y of the display image</code>. So we subtract our <code>maxx</code> and <code>maxy</code> margins from the values we got from <code>/dev/draw/new</code> to get the maximum limits. We do this by composing commands for bc(1) with echo and piping to <code>bc</code> and assigning the output to the variables <code>maxx</code> and <code>maxy</code> as rc(1) doesn&rsquo;t have builtin math facilities.</p>
+
+<p>The reason we have a special case for sub-rios is because otherwise we would have no idea what size the rio we&rsquo;re running in is, and we would be passing errant values to rio. Both <code>/mnt/orio</code> and <code>sriomargin</code> come from the script I use for creating sub-rios conveniently, shown in Fig 7, so <code>/mnt/orio</code>, if it exists, will always be the parent rio, not the rio we&rsquo;re currently operating in.</p>
 
 <p>Fig 3.</p>
 
-<pre><code>         51           0    x8r8g8b8           0           0           0        1600         900           0           0        1600         900 
+<pre><code>   x8r8g8b8           0           0        1600         900 
 </code></pre>
 
 <p>Fig 4.</p>
@@ -372,10 +376,17 @@ wctlcmd(Window *w, Rectangle r, int cmd, char *err)
 
 <p>Fig 5.</p>
 
+<pre><code>sriomargin=(0 0 8 8)
+</code></pre>
+
+<p>Fig 6.</p>
+
 <pre><code>#!/bin/rc
 
 rfork e
 
+nl='
+'
 h=0
 v=0
 our=()
@@ -383,17 +394,27 @@ oum=()
 
 argv0=$0
 
-# $rmargin=(minx miny maxx maxy)
-# Margins
+if(~ $#rmargin 0)
+	rmargin=(0 0 0 0)
+if(~ $#sriomargin 0)
+	sriomargin=(0 0 0 0)
+
+if(test -r /mnt/orio/window)
+	ressrc='/mnt/orio/window'
+if not
+	ressrc='/dev/screen'
+ifs=' ' scr=`{dd -if $ressrc -bs 60 -count 1 -quiet 1}
+if(test $#scr -lt 5){
+	echo 'failed to read resolution'
+	exit 1
+}
+res=($scr(2) $scr(3) $scr(4) $scr(5))
 minx=$rmargin(1)
 miny=$rmargin(2)
-maxx=$rmargin(3)
-maxy=$rmargin(4)
-
-
-ifs=' ' scr=`{dd -if /dev/draw/new -bs 200 -count 1 -quiet 1}
-maxx=`{echo $scr(7) - $maxx | bc}
-maxy=`{echo $scr(8) - $maxy | bc}
+# maxx = scr.max.x - scr.min.x - rmarg - rsriomarg
+# maxy = scr.max.y - scr.min.y - bmarg - bsriomarg
+maxx=`{echo $res(3) - $res(1) - $rmargin(3) - $sriomargin(3) | bc | tr -d $nl}
+maxy=`{echo $res(4) - $res(2) - $rmargin(4) - $sriomargin(4) | bc | tr -d $nl}
 
 nopts=$#*
 flagfmt='h,v,l,r,t,b'
@@ -424,6 +445,20 @@ if(! ~ $our '')
 	echo resize $&quot;our &gt;&gt;/dev/wctl
 if(! ~ $oum '')
 	echo move $&quot;oum &gt;&gt;/dev/wctl
+</code></pre>
+
+<p>Fig 7.</p>
+
+<pre><code>#!/bin/rc
+
+max
+
+rfork e
+bind /mnt/wsys /mnt/orio
+rmargin=(20 0 0 0)
+sriomargin=(0 0 8 8)
+rio
+
 </code></pre>
 
 				</div>
