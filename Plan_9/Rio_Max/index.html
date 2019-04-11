@@ -368,7 +368,7 @@ wctlcmd(Window *w, Rectangle r, int cmd, char *err)
 
 <p>The script itself is mostly self-explanatory. The section that contains the most magic is the definition of the <code>scr</code> variable, which invokes dd(1) on either <code>/dev/screen</code> if we&rsquo;re not running in a sub-rio, or <code>/mnt/orio/window</code> if we are. The fields of <code>/dev/screen</code> on my system are shown in Fig 3. It is imperative that we read only once and only the first 60 bytes, as we&rsquo;re reading the header of a larger image(6) file. It seems rio will only return the first 60 bytes even if your buffer is larger on the first read, but we only ask for 60 just to be safe. As such, cat(1), which reads indefinitely, is out of the question for this application.</p>
 
-<p>We set the <code>ifs</code> to a single space to separate out the fields produced by dd(1). The fields we&rsquo;re interested in are the 7th and 8th, which, as described in draw(3), are <code>max.x, and max.y of the display image</code>. So we subtract our <code>maxx</code> and <code>maxy</code> margins from the values we got from <code>/dev/draw/new</code> to get the maximum limits. We do this by composing commands for bc(1) with echo and piping to <code>bc</code> and assigning the output to the variables <code>maxx</code> and <code>maxy</code> as rc(1) doesn&rsquo;t have builtin math facilities.</p>
+<p>We set the <code>ifs</code> to a single space to separate out the fields produced by dd(1). The fields we&rsquo;re interested in are fields 2-5, which, as described in draw(3), are <code>r.min.x, r.min.y, r.max.x, and r.max.y</code>. So we subtract our <code>maxx</code> and <code>maxy</code> margins from the values we got from <code>/dev/draw/new</code> to get the maximum limits. We do this by composing commands for bc(1) with echo and piping to <code>bc</code> and assigning the output to the variables <code>maxx</code> and <code>maxy</code> as rc(1) doesn&rsquo;t have builtin math facilities.</p>
 
 <p>The reason we have a special case for sub-rios is because otherwise we would have no idea what size the rio we&rsquo;re running in is, and we would be passing errant values to rio. Both <code>/mnt/orio</code> and <code>sriomargin</code> come from the script I use for creating sub-rios conveniently, shown in Fig 7, so <code>/mnt/orio</code>, if it exists, will always be the parent rio, not the rio we&rsquo;re currently operating in.</p>
 
@@ -466,7 +466,6 @@ bind /mnt/wsys /mnt/orio
 rmargin=(20 0 0 0)
 sriomargin=(0 0 8 8)
 rio
-
 </code></pre>
 
 				</div>
